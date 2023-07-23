@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React , { useState } from "react";
 
-function App() {
+import Expenses from "./components/ExpenseRelated/Expenses";
+import NewExpense from "./components/InputExpense/NewExpense";
+
+
+let dummyExpenses = [
+  {
+    id: "e1",
+    title: "car insurance",
+    date: new Date(2028, 1, 13),
+    amount: 340,
+  },
+
+  {
+    id: "e2",
+    title: "life insurance",
+    date: new Date(2030, 4, 21),
+    amount: 200,
+  },
+
+];
+
+
+function App(props) {
+
+  const [expenses , setExpenses] = useState(dummyExpenses);
+  
+  function addExpenseDataHandler(receivedExpense) {
+    const updatedExpense = [receivedExpense, ...expenses];
+    setExpenses(updatedExpense);
+    // it will not update or add the list,we have to use useState to update anything
+    // dummyExpenses[dummyExpenses.length -1] = receivedExpense ;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <NewExpense addNewExpenseData={addExpenseDataHandler} />
+      <Expenses items={expenses} />
     </div>
   );
 }
